@@ -84,7 +84,7 @@ def main():
         gpt_use_perceiver_resampler=True,
     )
     audio_config = XttsAudioConfig(sample_rate=22050, dvae_sample_rate=22050, output_sample_rate=24000)
-    
+
     # Define training parameters config
     config = GPTTrainerConfig(
         output_path=OUT_PATH,
@@ -159,24 +159,13 @@ def main():
         ],
         datasets=DATASETS_CONFIG_LIST,
         precision="fp16",
-        epochs=EPOCHS
+        epochs=EPOCHS  # Set the number of epochs
     )
 
     train_samples, eval_samples = load_tts_samples(
         datasets=config.datasets, eval_split=True, eval_split_max_size=config.eval_split_max_size
     )
-    
-    # Initialize the model
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = GPTTrainer.init_from_config(config)
-    model.to(device)
-
-    # Use DataParallel if multiple GPUs are available
-    if torch.cuda.device_count() > 1:
-        print(f"Using {torch.cuda.device_count()} GPUs!")
-        model = torch.nn.DataParallel(model)
-
-    # Load the latest checkpoint if it exists
     latest_checkpoint = None
     if os.path.exists(OUT_PATH):
         checkpoints = [file for file in os.listdir(OUT_PATH) if file.endswith(".pth")]
@@ -198,7 +187,6 @@ def main():
         train_samples=train_samples,
         eval_samples=eval_samples,
     )
-    
     trainer.fit()
 
 if __name__ == "__main__":
