@@ -113,22 +113,22 @@ def main():
         lr_scheduler_params={"milestones": [50000 * 18, 150000 * 18, 300000 * 18], "gamma": 0.5, "last_epoch": -1},
         test_sentences=[
             {
-                "text": "It took me quite a long time to develop a voice, and now that I have it I'm not going to be silent.",
+                "text": "It took me quite a long time to develop a voice, and now that I have it I'm not going to be silent!",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": LANGUAGE,
             },
             {
-                "text": "This cake is great. It's so delicious and moist.",
+                "text": "This cake is great. It's so delicious and moist!",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": LANGUAGE,
             },
             {
-                "text": "Foi um longo caminho para desenvolver uma voz, e agora que a tenho, não vou ficar em silêncio.",
+                "text": "Foi um longo caminho para desenvolver uma voz, e agora que a tenho, não vou ficar em silêncio!",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": "pt",
             },
             {
-                "text": "Este bolo está ótimo. Está tão delicioso e úmido.",
+                "text": "Este bolo está ótimo. Está tão delicioso e úmido!",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": "pt",
             },
@@ -190,3 +190,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#pip install torch==2.4.0+cu125 torchvision==0.15.0+cu125 torchaudio==2.4.0+cu125 -f https://download.pytorch.org/whl/torch_stable.html
