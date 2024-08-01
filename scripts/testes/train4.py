@@ -117,60 +117,60 @@ def main():
         lr_scheduler_params={"milestones": [50000 * 18, 150000 * 18, 300000 * 18], "gamma": 0.5, "last_epoch": -1},
         test_sentences=[
             {
-                "text": "It took me quite a long time to develop a voice, and now that I have it I'm not going to be silent!",
+                "text": "It took me quite a long time to develop a voice, and now that I have it I'm not going to be silent.",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": LANGUAGE,
             },
             {
-                "text": "This cake is great. It's so delicious and moist!",
+                "text": "This cake is great. It's so delicious and moist.",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": LANGUAGE,
             },
             {
-                "text": "Foi um longo caminho para desenvolver uma voz, e agora que a tenho, não vou ficar em silêncio!",
+                "text": "Foi um longo caminho para desenvolver uma voz, e agora que a tenho, não vou ficar em silêncio.",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": LANGUAGE,
             },
             {
-                "text": "Este bolo está ótimo. É tão delicioso e úmido!",
+                "text": "Este bolo está ótimo. É tão delicioso e úmido.",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": LANGUAGE,
             },
             {
-                "text": "Me tomó bastante tiempo desarrollar una voz, y ahora que la tengo, no voy a quedarme en silencio!",
+                "text": "Me tomó bastante tiempo desarrollar una voz, y ahora que la tengo, no voy a quedarme en silencio.",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": LANGUAGE,
             },
             {
-                "text": "Este pastel está genial. Es tan delicioso y húmedo!",
+                "text": "Este pastel está genial. Es tan delicioso y húmedo.",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": LANGUAGE,
             },
             {
-                "text": "Il m'a fallu beaucoup de temps pour développer une voix, et maintenant que je l'ai, je ne vais pas me taire!",
+                "text": "Il m'a fallu beaucoup de temps pour développer une voix, et maintenant que je l'ai, je ne vais pas me taire.",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": LANGUAGE,
             },
             {
-                "text": "Ce gâteau est super. Il est tellement délicieux et moelleux!",
+                "text": "Ce gâteau est super. Il est tellement délicieux et moelleux.",
                 "speaker_wav": SPEAKER_REFERENCE,
                 "language": LANGUAGE,
             },
         ],
         datasets=DATASETS_CONFIG_LIST,
         precision="fp16",
-        epochs=EPOCHS  # Set the number of epochs
+        epochs=EPOCHS
     )
 
     train_samples, eval_samples = load_tts_samples(
         datasets=config.datasets, eval_split=True, eval_split_max_size=config.eval_split_max_size
     )
     
-    # Initialize the model and move it to CUDA if available
+    # Initialize the model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = GPTTrainer.init_from_config(config)
     model.to(device)
-    
+
     # Use DataParallel if multiple GPUs are available
     if torch.cuda.device_count() > 1:
         print(f"Using {torch.cuda.device_count()} GPUs!")
@@ -197,7 +197,6 @@ def main():
         model=model,
         train_samples=train_samples,
         eval_samples=eval_samples,
-        device=device  # Pass device to the Trainer
     )
     
     trainer.fit()
